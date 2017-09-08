@@ -24,14 +24,6 @@ namespace Basic_Bot.Dialogs
             {
                 if (activity.MembersAdded != null && activity.MembersAdded.Any())
                 {
-                    string membersAdded = string.Join(
-                        ", ",
-                        activity.MembersAdded.Select(
-                            newMember => (newMember.Id != activity.Recipient.Id)
-                                ? $"{newMember.Name}"
-                                : $"{activity.Recipient.Name}"));
-
-                    await context.PostAsync($"Welcome to the server, {membersAdded}");
                 }
             }
             else

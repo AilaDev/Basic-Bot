@@ -24,15 +24,23 @@ namespace Basic_Bot.Dialogs
             {
                 if (activity.MembersAdded != null && activity.MembersAdded.Any())
                 {
-                    string membersAdded = string.Join(
-                        ", ",
-                        activity.MembersAdded.Select(
-                            newMember => (newMember.Id != activity.Recipient.Id)
-                                ? $"{newMember.Name}"
-                                : $"{activity.Recipient.Name}"));
-
-                    await context.PostAsync($"Welcome to the server, {membersAdded}");
+                    string messageText = "";
+                    foreach (var member in activity.MembersAdded){
+                        if (member.Id != activity.Recipient.Id)
+                        {
+                            messageText = $"Welcome to the server, {member.Name}! \n" +
+                                   $"Please type /help for a list of instructions!";
+                        }
+                        else
+                        {
+                            messageText = $"Hi, my name is {member.Name}. I'm a bot here to help you!";
+                        }
+                    }
+                    await context.PostAsync(messageText);
                 }
+            }else if (activity.Text == "/help")
+            {
+                await context.PostAsync("THERE IS NO HELP FOR YOU!!!");
             }
             else
             {

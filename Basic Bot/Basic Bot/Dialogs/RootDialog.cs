@@ -28,8 +28,8 @@ namespace Basic_Bot.Dialogs
                     foreach (var member in activity.MembersAdded){
                         if (member.Id != activity.Recipient.Id)
                         {
-                            messageText = $"Welcome to the server, {member.Name}! \n" +
-                                   $"Please type /help for a list of instructions!";
+                            messageText = $"Welcome to the server, {member.Name}! <br/>" +
+                                   $"Please type /help for a list of instructions! :)";
                         }
                         else
                         {
@@ -42,13 +42,12 @@ namespace Basic_Bot.Dialogs
             {
                 await context.PostAsync("THERE IS NO HELP FOR YOU!!!");
             }
+            //The Fallback Call if the bot can't do anything about the message
             else
             {
-                // calculate something for us to return
-                int length = (activity.Text ?? string.Empty).Length;
-
-                // return our reply to the user
-                await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+                //Apologies
+                await context.PostAsync($"My apologies {activity.From.Name} I have not been taught how to deal with that yet. <br/>" +
+                                        $"You can use /help to see what I can do :)");
             }
             context.Wait(MessageReceivedAsync);
         }

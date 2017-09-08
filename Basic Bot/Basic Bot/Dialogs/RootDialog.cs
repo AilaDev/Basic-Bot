@@ -38,6 +38,9 @@ namespace Basic_Bot.Dialogs
                     }
                     await context.PostAsync(messageText);
                 }
+            }else if (activity.Text == "/help")
+            {
+                await context.PostAsync("THERE IS NO HELP FOR YOU!!!");
             }
             else
             {

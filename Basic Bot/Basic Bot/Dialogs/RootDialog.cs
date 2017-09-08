@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -19,9 +20,19 @@ namespace Basic_Bot.Dialogs
         {
             var activity = await result as Activity;
 
-            if (activity.Text == "Hello World")
+            if (activity.Type == ActivityTypes.ConversationUpdate)
             {
-                await context.PostAsync("Hello you sexy devil, you");
+                if (activity.MembersAdded != null && activity.MembersAdded.Any())
+                {
+                    string membersAdded = string.Join(
+                        ", ",
+                        activity.MembersAdded.Select(
+                            newMember => (newMember.Id != activity.Recipient.Id)
+                                ? $"{newMember.Name}"
+                                : $"{activity.Recipient.Name}"));
+
+                    await context.PostAsync($"Welcome to the server, {membersAdded}");
+                }
             }
             else
             {

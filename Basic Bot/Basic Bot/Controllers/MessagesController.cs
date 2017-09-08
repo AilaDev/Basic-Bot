@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -16,7 +18,7 @@ namespace Basic_Bot
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (activity.Type == ActivityTypes.Message)
+            if (activity.Type == ActivityTypes.Message || activity.Type == ActivityTypes.ConversationUpdate)
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
             }

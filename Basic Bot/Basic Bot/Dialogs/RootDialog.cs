@@ -9,6 +9,7 @@ namespace Basic_Bot.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        private int drinks = 0;
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -29,7 +30,8 @@ namespace Basic_Bot.Dialogs
                         if (member.Id != activity.Recipient.Id)
                         {
                             messageText = $"Welcome to the server, {member.Name}! <br/>" +
-                                   $"Please type /help for a list of instructions! :)";
+                                   $"Please type /help for a list of instructions! :)" +
+                                   $"<br/>Type /drink to take a drink!";
                         }
                         else
                         {
@@ -41,6 +43,18 @@ namespace Basic_Bot.Dialogs
             }else if (activity.Text == "/help")
             {
                 await context.PostAsync("THERE IS NO HELP FOR YOU!!!");
+            }
+            else if (activity.Text == "/drink")
+            {
+                drinks += 1;
+                if (drinks == 1)
+                {
+                    await context.PostAsync("You've drunk " + drinks + " drink");
+                }
+                else
+                {
+                    await context.PostAsync("You've drunk " + drinks + " drinks");
+                }
             }
             //The Fallback Call if the bot can't do anything about the message
             else
